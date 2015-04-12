@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/gradient_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/tbly_mainLayout"
+        android:layout_margin="0dp"
+        android:layout_weight="1">
+
+
+        <!-- 2 columns -->
+        <TableRow
+            android:id="@+id/tblRow_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+
+            <ImageView
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:id="@+id/imgLogoWT"
+                android:src="@drawable/weight_tr_logo"
+                android:layout_column="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Weight Tracker"
+                android:id="@+id/textView"
+                android:layout_column="3"
+                android:textAlignment="center"
+                android:textColor="#ffffffff"
+                android:textSize="13pt"
+                android:shadowColor="#ffa0a0a0"
+                android:gravity="fill_horizontal|center_vertical|center_horizontal"
+                android:layout_gravity="center_vertical" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#c0c0c0"
+                android:layout_column="0" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#c0c0c0"
+                android:layout_column="3" />
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:background="#c0c0c0"
+                android:layout_column="3" />
+        </TableRow>
+
+        <!-- edittext span 2 column -->
+
+    </TableLayout>
+
+</LinearLayout>
