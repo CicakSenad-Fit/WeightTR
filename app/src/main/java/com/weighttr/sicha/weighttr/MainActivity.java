@@ -1,5 +1,6 @@
 package com.weighttr.sicha.weighttr;
 
+import android.app.ActionBar;
 import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
@@ -11,8 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -99,8 +102,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         try {
-            TableLayout tableLayout = (TableLayout)findViewById(R.id.tbly_mainLayout);
-            tableLayout.setPadding(0, 50 , 0, 0);
+            LinearLayout mainLayout = (LinearLayout)findViewById(R.id.tbly_mainLayout);
 
             if (!users.isEmpty())
                 _users = users;
@@ -109,9 +111,11 @@ public class MainActivity extends ActionBarActivity {
             {
                 for (int i = 0; i < _users.size(); i++)
                 {
-                    TableRow tableRow = new TableRow(this);
-                    tableRow.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 200));
-                    tableRow.setPadding(0, 30, 0 , 30);
+                    TableRow tmpTableRow = new TableRow(this);
+                    LinearLayout tmpLinearLayout = new LinearLayout(this);
+                    tmpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+                    tmpTableRow.setPadding(0, 30, 0, 30);
 
                     ImageView imgUserAvatar = new ImageView(this);
 
@@ -129,10 +133,11 @@ public class MainActivity extends ActionBarActivity {
                     txtViewUserName.setGravity(Gravity.CENTER_VERTICAL);
                     txtViewUserName.setPadding(25, 45, 0, 0);
 
-                    tableRow.addView(imgUserAvatar);
-                    tableRow.addView(txtViewUserName);
+                    tmpLinearLayout.addView(imgUserAvatar);
+                    tmpLinearLayout.addView(txtViewUserName);
 
-                    tableLayout.addView(tableRow);
+                    tmpTableRow.addView(tmpLinearLayout);
+                    mainLayout.addView(tmpTableRow);
                 }
             }
         }
