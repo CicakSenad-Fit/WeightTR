@@ -38,7 +38,7 @@
                     android:textColor="#ffffffff"
                     android:textSize="13pt"
                     android:shadowColor="#ffa0a0a0"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="false"
                     android:layout_alignParentStart="false"
