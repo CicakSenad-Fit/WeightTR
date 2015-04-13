@@ -1,8 +1,7 @@
 package com.weighttr.sicha.weighttr;
 
-import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
@@ -11,12 +10,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -33,7 +28,7 @@ import control.XmlReader;
 import model.User;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
 
     public ArrayList<User> getUsers() {
@@ -112,6 +107,9 @@ public class MainActivity extends ActionBarActivity {
                 for (int i = 0; i < _users.size(); i++)
                 {
                     TableRow tmpTableRow = new TableRow(this);
+                    tmpTableRow.setId(_users.get(i).getId());
+                    tmpTableRow.setOnClickListener(this);
+
                     LinearLayout tmpLinearLayout = new LinearLayout(this);
                     tmpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -178,7 +176,23 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onClick(View view)
+    {
+        User _userToSend = new User();
+        int userId = view.getId();
 
+        for (int i=0; i < users.size(); i++)
+        {
+            if (users.get(i).getId() == userId)
+                _userToSend = users.get(i);
+        }
+
+        Intent intent = new Intent(getApplicationContext(), acvty_Profile.class);
+        intent.putExtra("user", _userToSend);
+
+        startActivity(intent);
+    }
 
 
 }
