@@ -2,8 +2,7 @@
 <localStorage>
     <users>
         <user id="0" username="JohnDoe" pass="0" age="0" sex="N" height="0"/>
-		<user id="45" username="Emina" pass="0" age="27" sex="F" height="172"/>
-		<user id="258" username="Sicha" pass="0" age="33" sex="M" height="182"/>
+
     </users>
     <measures>
         <measure-record id="0" date="" value="" user=""/>

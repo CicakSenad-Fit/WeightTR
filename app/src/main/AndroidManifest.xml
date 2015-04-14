@@ -6,12 +6,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,12 +25,21 @@
                 android:value="com.weighttr.sicha.weighttr.MainActivity" />
         </activity>
         <activity
-            android:name=".acvty_Profile"
+            android:name=".ProfilePageActivity"
             android:label="@string/title_activity_acvty__profile" >
             <intent-filter>
                 <action android:name="activity_Profile" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".CreateNewUserActivity"
+            android:label="@string/title_activity_create_new_user" >
+        </activity>
+        <activity
+            android:name=".SignInActivity"
+            android:label="@string/title_activity_sign_in" >
         </activity>
     </application>
 

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
     android:id="@+id/lnrlyt_profilePageLayout"
-    tools:context="com.weighttr.sicha.weighttr.acvty_Profile">
+    tools:context="com.weighttr.sicha.weighttr.ProfilePageActivity">
 
     <TableRow
         android:layout_width="fill_parent"

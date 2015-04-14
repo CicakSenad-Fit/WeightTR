@@ -6,12 +6,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -138,6 +141,69 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     mainLayout.addView(tmpTableRow);
                 }
             }
+            else
+            {
+                //Create New User Button
+                RelativeLayout rl_createNewUser = new RelativeLayout(this);
+
+                //converting int into pixels
+                //http://stackoverflow.com/questions/6798867/android-how-to-programmatically-set-the-size-of-a-layout
+                rl_createNewUser.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics())));
+
+                Button btn_createNewUser = new Button(this);
+                btn_createNewUser.setId(R.id.btnCreateNewUser);
+                btn_createNewUser.setText(R.string.btnCreateNewUser);
+                btn_createNewUser.setBackgroundResource(R.drawable.my_button);
+                btn_createNewUser.setTextColor(Color.BLACK);
+
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+                params.setMargins(0, 0, 0, 70);
+
+                btn_createNewUser.setLayoutParams(params);
+
+                btn_createNewUser.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                btn_createNewUser.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics());
+
+                btn_createNewUser.setOnClickListener(this);
+
+                rl_createNewUser.addView(btn_createNewUser);
+                mainLayout.addView(rl_createNewUser);
+
+
+                //Create New User Button
+                RelativeLayout rl_signIn = new RelativeLayout(this);
+
+                //converting int into pixels
+                //http://stackoverflow.com/questions/6798867/android-how-to-programmatically-set-the-size-of-a-layout
+                rl_signIn.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics())));
+
+                Button btn_signIn = new Button(this);
+                btn_signIn.setId(R.id.btnSignIn);
+                btn_signIn.setText(R.string.btnSignIn);
+                btn_signIn.setBackgroundResource(R.drawable.my_button);
+                btn_signIn.setTextColor(Color.BLACK);
+
+                RelativeLayout.LayoutParams params_signIn = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params_signIn.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                params_signIn.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+                params_signIn.setMargins(0, 70, 0, 0);
+
+                btn_createNewUser.setLayoutParams(params);
+
+                btn_signIn.setLayoutParams(params_signIn);
+
+                btn_signIn.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                btn_signIn.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics());
+
+                btn_signIn.setOnClickListener(this);
+
+                rl_signIn.addView(btn_signIn);
+                mainLayout.addView(rl_signIn);
+            }
         }
         catch (Exception e)
         {
@@ -180,16 +246,29 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View view)
     {
         User _userToSend = new User();
-        int userId = view.getId();
+        Intent intent;
 
-        for (int i=0; i < users.size(); i++)
+        switch (view.getId())
         {
-            if (users.get(i).getId() == userId)
-                _userToSend = users.get(i);
-        }
+            case R.id.btnCreateNewUser:
+                intent = new Intent(getApplicationContext(), CreateNewUserActivity.class);
+                break;
+            case R.id.btnSignIn:
+                intent = new Intent(getApplicationContext(), SignInActivity.class);
+                break;
+            default:
+                int userId = view.getId();
 
-        Intent intent = new Intent(getApplicationContext(), acvty_Profile.class);
-        intent.putExtra("user", _userToSend);
+                for (int i=0; i < users.size(); i++)
+                {
+                    if (users.get(i).getId() == userId)
+                        _userToSend = users.get(i);
+                }
+
+                intent = new Intent(getApplicationContext(), ProfilePageActivity.class);
+                intent.putExtra("user", _userToSend);
+                break;
+        }
 
         startActivity(intent);
     }

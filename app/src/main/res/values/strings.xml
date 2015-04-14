@@ -8,5 +8,9 @@
     <string name="title_activity_display_message">This is Second Activity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_acvty__profile">acvty_Profile</string>
+    <string name="btnCreateNewUser">Create New User</string>
+    <string name="btnSignIn">Sign In</string>
+    <string name="title_activity_create_new_user">CreateNewUser</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
 
 </resources>
