@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import control.XmlReader;
+import control.XmlReaderWriter;
 import model.User;
 
 
@@ -223,7 +223,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void LoadUsers()
     {
         XmlPullParserFactory pullParserFactory;
-        XmlReader xmlReader = new XmlReader(getUsers());
+        XmlReaderWriter xmlReader = new XmlReaderWriter(getUsers());
 
         try {
             pullParserFactory = XmlPullParserFactory.newInstance();
@@ -252,9 +252,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         {
             case R.id.btnCreateNewUser:
                 intent = new Intent(getApplicationContext(), CreateNewUserActivity.class);
+                intent.putExtra("allUsers", users);
                 break;
             case R.id.btnSignIn:
                 intent = new Intent(getApplicationContext(), SignInActivity.class);
+                intent.putExtra("allUsers", users);
                 break;
             default:
                 int userId = view.getId();
