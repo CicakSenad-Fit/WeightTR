@@ -1,7 +1,9 @@
 package com.weighttr.sicha.weighttr;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
@@ -33,23 +35,39 @@ import model.User;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
+    private static MainActivity instance = new MainActivity();
+    private static Context context;
+    private ArrayList<User> users = new ArrayList<User>();
+
+    public static MainActivity getInstance()
+    {
+        return instance;
+    }
+
+    public static Context getContext()
+    {
+        return MainActivity.context;
+    }
 
     public ArrayList<User> getUsers() {
         return users;
     }
-
     public void setUsers(ArrayList<User> users) {
         this.users = users;
     }
 
-    private ArrayList<User> users = new ArrayList<User>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        MainActivity.context = getApplicationContext();
 
-        LoadUsers();
+        setContentView(R.layout.activity_main);
+        String dirPath = getFilesDir().getAbsolutePath() + File.separator + "weightStorage";
+
+        if (DoesFolderExist(dirPath))
+            LoadUsers();
+
         LoadConfig();
     }
 
@@ -74,15 +92,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void sendMessage(View view) {
-//        Intent intent = new Intent(this, DisplayMessageActivity.class);
-//        EditText editText = (EditText) findViewById(R.id.edit_message);
-//        String message = editText.getText().toString();
-//
-//        intent.putExtra(EXTRA_MESSAGE, message);
-//        startActivity(intent);
     }
 
     private void LoadConfig()
@@ -210,7 +219,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             Log.e("Loading configuration probably users Array error! Error message: ", e.getMessage());
         }
 
-
     }
 
     private boolean DoesFileExist(File file) {
@@ -220,10 +228,20 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         else return false;
     }
 
+    private boolean DoesFolderExist(String path)
+    {
+        File f = new File(Environment.getExternalStorageDirectory() + path);
+        if(f.isDirectory()) {
+            return true;
+        }
+
+        return false;
+    }
+
     private void LoadUsers()
     {
         XmlPullParserFactory pullParserFactory;
-        XmlReaderWriter xmlReader = new XmlReaderWriter(getUsers());
+        XmlReaderWriter xmlReader = new XmlReaderWriter(getUsers(), getApplicationContext());
 
         try {
             pullParserFactory = XmlPullParserFactory.newInstance();

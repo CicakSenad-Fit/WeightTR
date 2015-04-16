@@ -1,5 +1,6 @@
 package com.weighttr.sicha.weighttr;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ import model.User;
 
 
 public class CreateNewUserActivity extends ActionBarActivity {
-
     ArrayList<User> _users = new ArrayList<User>();
 
     String userName;
@@ -34,6 +34,8 @@ public class CreateNewUserActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_user);
+
+        final Context _context = MainActivity.getContext();
 
         Intent receivedIntent = getIntent();
         _users = (ArrayList<User>)receivedIntent.getSerializableExtra("allUsers");
@@ -81,8 +83,11 @@ public class CreateNewUserActivity extends ActionBarActivity {
 
                 _users.add(newUser);
 
-                XmlReaderWriter xmlWriter = new XmlReaderWriter(_users);
+                XmlReaderWriter xmlWriter = new XmlReaderWriter(_users, _context);
                 xmlWriter.writeXML(_users);
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }

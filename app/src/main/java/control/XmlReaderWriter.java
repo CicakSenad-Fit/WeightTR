@@ -1,6 +1,8 @@
 package control;
 
 import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -8,11 +10,11 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 import model.User;
 
@@ -20,11 +22,15 @@ import model.User;
  * Created by Sicha on 4/8/2015.
  */
 public class XmlReaderWriter {
-    public volatile boolean parsingComplete = true;
+    private Context _context;
     private ArrayList<User> _users = new ArrayList<User>();
 
-    public XmlReaderWriter(ArrayList<User> users) {
+    public volatile boolean parsingComplete = true;
+
+    public XmlReaderWriter(ArrayList<User> users, Context context)
+    {
         _users = users;
+        _context = context;
     }
 
     public void readXML()
@@ -88,14 +94,12 @@ public class XmlReaderWriter {
         }
     }
 
-    private String createXml(ArrayList<User> users){
+    private String createXml(ArrayList<User> users)
+    {
         XmlSerializer serializer = Xml.newSerializer();
         StringWriter writer = new StringWriter();
 
         try {
-            FileOutputStream fos = new  FileOutputStream("userData.xml");
-            FileOutputStream fileos = getApplicationContext().openFileOutput(xmlFile, Context.MODE_PRIVATE);
-
             serializer.setOutput(writer);
             serializer.startDocument("UTF-8", true);
             serializer.startTag("", "localStorage");
@@ -113,6 +117,7 @@ public class XmlReaderWriter {
             serializer.endTag("", "users");
             serializer.endTag("", "localStorage");
             serializer.endDocument();
+
             return writer.toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -123,10 +128,34 @@ public class XmlReaderWriter {
 
         try {
             if (users.size() > 0)
-                createXml(users);
+                writeToFile(createXml(users));
         }
         catch (Exception e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
 
+    private void writeToFile(String writer) {
+        String xmlFile = "localStorage.xml";
+
+        String dirPath = _context.getFilesDir().getAbsolutePath() + File.separator + "weightStorage";
+        File projDir = new File(dirPath);
+
+        if (!projDir.exists())
+            projDir.mkdirs();
+
+        try {
+            File file = new File(dirPath + xmlFile);
+            file.createNewFile();
+
+            FileOutputStream fileos = new FileOutputStream(file);
+
+            String dataWrite = writer;
+            fileos.write(dataWrite.getBytes());
+            fileos.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
         }
     }
 }
