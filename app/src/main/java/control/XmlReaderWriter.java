@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 import android.util.Xml;
+import android.widget.Toast;
+
+import com.weighttr.sicha.weighttr.MainActivity;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -13,6 +16,7 @@ import org.xmlpull.v1.XmlSerializer;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
@@ -135,27 +139,30 @@ public class XmlReaderWriter {
         }
     }
 
-    private void writeToFile(String writer) {
-        String xmlFile = "localStorage.xml";
+    private void writeToFile(String dataToWrite) {
+        String xmlFile = MainActivity.APP_STORAGE_FILE_NAME;
 
-        String dirPath = _context.getFilesDir().getAbsolutePath() + File.separator + "weightStorage";
+        String dirPath = MainActivity.getContext().getFilesDir() + "/weightTR/Storage/";
         File projDir = new File(dirPath);
 
         if (!projDir.exists())
             projDir.mkdirs();
 
         try {
-            File file = new File(dirPath + xmlFile);
+            File file = new File(dirPath, MainActivity.APP_STORAGE_FILE_NAME);
             file.createNewFile();
 
-            FileOutputStream fileos = new FileOutputStream(file);
+            FileOutputStream fOut = new FileOutputStream(file);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
 
-            String dataWrite = writer;
-            fileos.write(dataWrite.getBytes());
-            fileos.close();
+            myOutWriter.append(dataToWrite);
+            myOutWriter.close();
+
+            Toast.makeText(_context, "Done writig SD 'localStorage.xml'", Toast.LENGTH_SHORT).show();
         }
         catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+            Toast.makeText(_context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
 }

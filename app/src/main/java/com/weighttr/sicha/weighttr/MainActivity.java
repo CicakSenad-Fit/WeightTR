@@ -25,6 +25,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,6 +36,10 @@ import model.User;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
+    public final static String APP_STORAGE_PATH = Environment.getExternalStorageDirectory() + File.separator + "weightTR/Storage/";
+    public final static String APP_STORAGE_FILE_NAME = "localStorage.xml";
+
+
     private static MainActivity instance = new MainActivity();
     private static Context context;
     private ArrayList<User> users = new ArrayList<User>();
@@ -63,7 +68,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         MainActivity.context = getApplicationContext();
 
         setContentView(R.layout.activity_main);
-        String dirPath = getFilesDir().getAbsolutePath() + File.separator + "weightStorage";
+        String dirPath = MainActivity.getContext().getFilesDir() + "/weightTR/Storage/";
 
         if (DoesFolderExist(dirPath))
             LoadUsers();
@@ -230,7 +235,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     private boolean DoesFolderExist(String path)
     {
-        File f = new File(Environment.getExternalStorageDirectory() + path);
+        File f = new File(path);
         if(f.isDirectory()) {
             return true;
         }
@@ -247,7 +252,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             pullParserFactory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = pullParserFactory.newPullParser();
 
-            InputStream in_s = getApplicationContext().getAssets().open("localStorage.xml");
+            InputStream in_s = new FileInputStream(MainActivity.getContext().getFilesDir() + "/weightTR/Storage/" + APP_STORAGE_FILE_NAME);
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(in_s, null);
 
