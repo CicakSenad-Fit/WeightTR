@@ -81,6 +81,8 @@ public class CreateNewUserActivity extends ActionBarActivity {
                 gender = (RadioButton) findViewById(R.id.rbtn_male);
                 newUser.setSex(gender.isChecked());
 
+                newUser.setId(_users.size() + 1);
+
                 _users.add(newUser);
 
                 XmlReaderWriter xmlWriter = new XmlReaderWriter(_users, _context);

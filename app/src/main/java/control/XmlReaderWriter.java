@@ -131,8 +131,7 @@ public class XmlReaderWriter {
     public void writeXML(ArrayList<User> users) {
 
         try {
-            if (users.size() > 0)
-                writeToFile(createXml(users));
+            writeToFile(createXml(users));
         }
         catch (Exception e) {
             Log.e("Exception", "File write failed: " + e.toString());
@@ -140,7 +139,6 @@ public class XmlReaderWriter {
     }
 
     private void writeToFile(String dataToWrite) {
-        String xmlFile = MainActivity.APP_STORAGE_FILE_NAME;
 
         String dirPath = MainActivity.getContext().getFilesDir() + "/weightTR/Storage/";
         File projDir = new File(dirPath);

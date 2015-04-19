@@ -3,22 +3,28 @@ package com.weighttr.sicha.weighttr;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -36,24 +42,16 @@ import model.User;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
-    public final static String APP_STORAGE_PATH = Environment.getExternalStorageDirectory() + File.separator + "weightTR/Storage/";
     public final static String APP_STORAGE_FILE_NAME = "localStorage.xml";
-
 
     private static MainActivity instance = new MainActivity();
     private static Context context;
-    private ArrayList<User> users = new ArrayList<User>();
-
-    public static MainActivity getInstance()
-    {
-        return instance;
-    }
+    private ArrayList<User> users = new ArrayList<>();
 
     public static Context getContext()
     {
         return MainActivity.context;
     }
-
     public ArrayList<User> getUsers() {
         return users;
     }
@@ -101,7 +99,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     private void LoadConfig()
     {
-        ArrayList<User> _users = new ArrayList<User>();
         File configFile = new File("res/config.kne");
 
         if (DoesFileExist(configFile))
@@ -114,49 +111,39 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
 
         try {
-            LinearLayout mainLayout = (LinearLayout)findViewById(R.id.tbly_mainLayout);
+            ScrollView usersContent = (ScrollView)findViewById(R.id.scrlVwUsersContent);
 
-            if (!users.isEmpty())
-                _users = users;
-
-            if (_users.size() > 0)
+            if (users.size() > 0)
             {
-                for (int i = 0; i < _users.size(); i++)
-                {
-                    TableRow tmpTableRow = new TableRow(this);
-                    tmpTableRow.setId(_users.get(i).getId());
-                    tmpTableRow.setOnClickListener(this);
+                RelativeLayout footerLayout = (RelativeLayout)findViewById(R.id.rl_footerLayout);
+                footerLayout.setVisibility(RelativeLayout.VISIBLE);
 
-                    LinearLayout tmpLinearLayout = new LinearLayout(this);
-                    tmpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                usersContent.removeAllViews();
 
-                    tmpTableRow.setPadding(0, 30, 0, 30);
+                TableLayout usersTableLayout = new TableLayout(context);
+                usersTableLayout.setId(R.id.tbly_users_content);
 
-                    ImageView imgUserAvatar = new ImageView(this);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.BELOW, R.id.seperator_top);
+                params.addRule(RelativeLayout.ALIGN_PARENT_START);
+                usersTableLayout.setLayoutParams(params);
 
-                    if (_users.get(i).getSex())
-                        imgUserAvatar.setImageResource(R.drawable.user_blue);
-                    else
-                        imgUserAvatar.setImageResource(R.drawable.user_red);
-
-                    imgUserAvatar.setPadding(25, 0, 25, 0);
-
-                    TextView txtViewUserName = new TextView(this);
-                    txtViewUserName.setText(_users.get(i).getUsername());
-                    txtViewUserName.setTextColor(Color.WHITE);
-
-                    txtViewUserName.setGravity(Gravity.CENTER_VERTICAL);
-                    txtViewUserName.setPadding(25, 45, 0, 0);
-
-                    tmpLinearLayout.addView(imgUserAvatar);
-                    tmpLinearLayout.addView(txtViewUserName);
-
-                    tmpTableRow.addView(tmpLinearLayout);
-                    mainLayout.addView(tmpTableRow);
-                }
+                RefreshUserList();
             }
             else
             {
+                //Since button to create new user is already added we can hide the one in footer.
+                RelativeLayout footerLayout = (RelativeLayout)findViewById(R.id.rl_footerLayout);
+                footerLayout.setVisibility(RelativeLayout.GONE);
+
+                RelativeLayout rl_buttonsContainer = new RelativeLayout(this);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                params.addRule(RelativeLayout.BELOW, R.id.seperator_top);
+                params.addRule(RelativeLayout.ABOVE, R.id.rl_footerLayout);
+
+                rl_buttonsContainer.setLayoutParams(params);
+
+
                 //Create New User Button
                 RelativeLayout rl_createNewUser = new RelativeLayout(this);
 
@@ -166,17 +153,17 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                 Button btn_createNewUser = new Button(this);
                 btn_createNewUser.setId(R.id.btnCreateNewUser);
-                btn_createNewUser.setText(R.string.btnCreateNewUser);
+                btn_createNewUser.setText(R.string.title_activity_create_new_user);
                 btn_createNewUser.setBackgroundResource(R.drawable.my_button);
                 btn_createNewUser.setTextColor(Color.BLACK);
 
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                RelativeLayout.LayoutParams params_create_user = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params_create_user.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                params_create_user.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
-                params.setMargins(0, 0, 0, 70);
+                params_create_user.setMargins(0, 0, 0, 70);
 
-                btn_createNewUser.setLayoutParams(params);
+                btn_createNewUser.setLayoutParams(params_create_user);
 
                 btn_createNewUser.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
                 btn_createNewUser.getLayoutParams().width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics());
@@ -184,10 +171,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 btn_createNewUser.setOnClickListener(this);
 
                 rl_createNewUser.addView(btn_createNewUser);
-                mainLayout.addView(rl_createNewUser);
+                rl_buttonsContainer.addView(rl_createNewUser);
 
 
-                //Create New User Button
+                //Create Sign In Button
                 RelativeLayout rl_signIn = new RelativeLayout(this);
 
                 //converting int into pixels
@@ -216,7 +203,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 btn_signIn.setOnClickListener(this);
 
                 rl_signIn.addView(btn_signIn);
-                mainLayout.addView(rl_signIn);
+                rl_buttonsContainer.addView(rl_signIn);
+
+                usersContent.addView(rl_buttonsContainer);
             }
         }
         catch (Exception e)
@@ -224,6 +213,52 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             Log.e("Loading configuration probably users Array error! Error message: ", e.getMessage());
         }
 
+    }
+
+    private void RefreshUserList()
+    {
+        TableLayout usersTableLayout = (TableLayout)findViewById(R.id.tbly_users_content);
+
+        if (usersTableLayout.getChildCount() > 0)
+            usersTableLayout.removeAllViews();
+
+        for (int i = 0; i < users.size(); i++)
+        {
+            TableRow tmpTableRow = new TableRow(this);
+            tmpTableRow.setId(users.get(i).getId());
+            tmpTableRow.setOnClickListener(this);
+
+            LinearLayout tmpLinearLayout = new LinearLayout(this);
+            tmpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+            tmpTableRow.setPadding(0, 30, 0, 30);
+
+            ImageView imgUserAvatar = new ImageView(this);
+
+            if (users.get(i).getSex())
+                imgUserAvatar.setImageResource(R.drawable.user_blue);
+            else
+                imgUserAvatar.setImageResource(R.drawable.user_red);
+
+            imgUserAvatar.setPadding(25, 0, 25, 0);
+
+            TextView txtViewUserName = new TextView(this);
+            txtViewUserName.setText(users.get(i).getUsername());
+            txtViewUserName.setTextColor(Color.WHITE);
+
+            txtViewUserName.setGravity(Gravity.CENTER_VERTICAL);
+            txtViewUserName.setPadding(25, 45, 0, 0);
+
+            tmpLinearLayout.addView(imgUserAvatar);
+            tmpLinearLayout.addView(txtViewUserName);
+
+            //registering View for context menu (long click)
+            //http://stackoverflow.com/questions/17207366/creating-a-menu-after-a-long-click-event-on-a-list-view
+            registerForContextMenu(tmpTableRow);
+
+            tmpTableRow.addView(tmpLinearLayout);
+            usersTableLayout.addView(tmpTableRow);
+        }
     }
 
     private boolean DoesFileExist(File file) {
@@ -274,14 +309,20 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         switch (view.getId())
         {
             case R.id.btnCreateNewUser:
+            case R.id.btnMainCreateNewUser:
+            {
                 intent = new Intent(getApplicationContext(), CreateNewUserActivity.class);
                 intent.putExtra("allUsers", users);
                 break;
+            }
             case R.id.btnSignIn:
+            {
                 intent = new Intent(getApplicationContext(), SignInActivity.class);
                 intent.putExtra("allUsers", users);
                 break;
+            }
             default:
+            {
                 int userId = view.getId();
 
                 for (int i=0; i < users.size(); i++)
@@ -293,10 +334,44 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 intent = new Intent(getApplicationContext(), ProfilePageActivity.class);
                 intent.putExtra("user", _userToSend);
                 break;
+            }
         }
 
         startActivity(intent);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
 
+        menu.setHeaderTitle("User: " + users.get(v.getId()).getUsername());
+        menu.add(R.id.context_menu_edit, v.getId(), 0, "Edit");
+        menu.add(R.id.context_menu_remove, v.getId(), 0, "Remove");
+
+        //MenuInflater inflater = getMenuInflater();
+        //inflater.inflate(R.menu.manu_context_list, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch(item.getGroupId()) {
+            case R.id.context_menu_edit:
+                Intent intent = new Intent(getApplicationContext(), ProfilePageActivity.class);
+                intent.putExtra("user", users.get(item.getItemId()));
+                return true;
+            case R.id.context_menu_remove:
+                Toast.makeText(context, "Removing: '" + users.get(item.getItemId()).getUsername() + "'!...", Toast.LENGTH_SHORT).show();
+                users.remove(item.getItemId());
+
+                XmlReaderWriter xmlWriter = new XmlReaderWriter(users, context);
+                xmlWriter.writeXML(users);
+
+                RefreshUserList();
+                LoadConfig();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
 }

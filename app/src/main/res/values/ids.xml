@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="btnCreateNewUser" type="id" />
+    <item name="btnMainCreateNewUser" type="id" />
     <item name="btnSignIn" type="id" />
+    <item name="tbly_mainUsersTableLayout" type="id" />
+    <item name="tbly_users_content" type="id" />
+
 </resources>

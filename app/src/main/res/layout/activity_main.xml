@@ -7,58 +7,112 @@
     android:layout_gravity="center_vertical"
     android:id="@+id/tbly_mainLayout"
     android:layout_margin="0dp"
-    android:layout_weight="1">
+    android:layout_weight="1"
+    android:gravity="top">
 
 
-    <TableRow
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="80dp">
+        android:layout_height="fill_parent">
 
-        <LinearLayout
-            android:id="@+id/tblRow_header"
-            android:orientation="horizontal"
+        <TableRow
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="80dp"
+            android:id="@+id/tableRow">
 
-                <ImageView
-                    android:layout_width="150px"
-                    android:layout_height="150px"
-                    android:id="@+id/imgLogoWT"
-                    android:src="@drawable/weight_tr_logo"
-                    android:layout_column="0" />
+            <LinearLayout
+                android:id="@+id/tblRow_header"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Weight Tracker"
-                    android:id="@+id/textView"
-                    android:layout_column="3"
-                    android:textAlignment="center"
-                    android:textColor="#ffffffff"
-                    android:textSize="13pt"
-                    android:layout_gravity="center"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="false"
-                    android:layout_alignParentStart="false"
-                    android:layout_alignParentRight="false"
-                    android:layout_toRightOf="@+id/imgLogoWT"
-                    android:phoneNumber="false" />
+                    <ImageView
+                        android:layout_width="150px"
+                        android:layout_height="150px"
+                        android:id="@+id/imgLogoWT"
+                        android:src="@drawable/weight_tr_logo"
+                        android:layout_column="0" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Weight Tracker"
+                        android:id="@+id/textView"
+                        android:layout_column="3"
+                        android:textAlignment="center"
+                        android:textColor="#ffffffff"
+                        android:textSize="13pt"
+                        android:layout_gravity="center"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="false"
+                        android:layout_alignParentStart="false"
+                        android:layout_alignParentRight="false"
+                        android:layout_toRightOf="@+id/imgLogoWT"
+                        android:phoneNumber="false" />
 
             </LinearLayout>
 
-    </TableRow>
+        </TableRow>
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="2dp">
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/tableRow"
+            android:layout_alignParentStart="true"
+            android:id="@+id/seperator_top">
+
+        </TableRow>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dp"
             android:background="#c0c0c0"
-            android:layout_column="0" />
+            android:layout_column="0"
+            android:layout_below="@+id/tableRow"
+            android:layout_alignParentStart="true" />
 
-        </TableRow>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrlVwUsersContent"
+            android:layout_below="@+id/seperator_top"
+            android:layout_alignParentStart="true">
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:gravity="bottom"
+            android:id="@+id/rl_footerLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Not you?"
+                android:id="@+id/lblCreateNewUser"
+                android:textColor="#ffffffff"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="40dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_activity_create_new_user"
+                android:id="@+id/btnCreateUser"
+                android:background="@drawable/my_button"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:onClick="onClick" />
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>
