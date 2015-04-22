@@ -134,6 +134,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 params.addRule(RelativeLayout.ALIGN_PARENT_START);
                 usersTableLayout.setLayoutParams(params);
 
+                usersContent.addView(usersTableLayout);
                 rl_main_view.addView(usersContent);
                 RefreshUserList();
             }
@@ -310,7 +311,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         switch (view.getId())
         {
             case R.id.btnCreateNewUser:
-            case R.id.btnMainCreateNewUser:
+            case R.id.btnCreateUser:
             {
                 intent = new Intent(getApplicationContext(), CreateNewUserActivity.class);
                 intent.putExtra("allUsers", users);
@@ -345,12 +346,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
-        menu.setHeaderTitle("User: " + users.get(v.getId()).getUsername());
+        menu.setHeaderTitle("User: " + users.get(v.getId() - 1).getUsername());
         menu.add(R.id.context_menu_edit, v.getId(), 0, "Edit");
         menu.add(R.id.context_menu_remove, v.getId(), 0, "Remove");
-
-        //MenuInflater inflater = getMenuInflater();
-        //inflater.inflate(R.menu.manu_context_list, menu);
     }
 
     @Override
@@ -358,12 +356,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getGroupId()) {
             case R.id.context_menu_edit:
-                Intent intent = new Intent(getApplicationContext(), ProfilePageActivity.class);
-                intent.putExtra("user", users.get(item.getItemId()));
+                Intent intent = new Intent(getApplicationContext(), EditUserActivity.class);
+                intent.putExtra("user", users.get(item.getItemId() - 1));
                 return true;
             case R.id.context_menu_remove:
-                Toast.makeText(context, "Removing: '" + users.get(item.getItemId()).getUsername() + "'!...", Toast.LENGTH_SHORT).show();
-                users.remove(item.getItemId());
+                Toast.makeText(context, "Removing: '" + users.get(item.getItemId() - 1).getUsername() + "'!...", Toast.LENGTH_SHORT).show();
+                users.remove(item.getItemId() - 1);
 
                 XmlReaderWriter xmlWriter = new XmlReaderWriter(users, context);
                 xmlWriter.writeXML(users);

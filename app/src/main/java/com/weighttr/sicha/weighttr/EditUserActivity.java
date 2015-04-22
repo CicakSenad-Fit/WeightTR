@@ -2,8 +2,8 @@ package com.weighttr.sicha.weighttr;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +18,7 @@ import control.XmlReaderWriter;
 import model.User;
 
 
-public class CreateNewUserActivity extends ActionBarActivity {
+public class EditUserActivity extends ActionBarActivity {
     ArrayList<User> _users = new ArrayList<User>();
 
     String userName;
