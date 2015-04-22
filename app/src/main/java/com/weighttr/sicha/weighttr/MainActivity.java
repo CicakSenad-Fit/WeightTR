@@ -111,14 +111,20 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
 
         try {
-            ScrollView usersContent = (ScrollView)findViewById(R.id.scrlVwUsersContent);
+            //ScrollView usersContent = (ScrollView)findViewById(R.id.scrlVwUsersContent);
+            RelativeLayout rl_main_view = (RelativeLayout)findViewById(R.id.rl_main_view);
 
             if (users.size() > 0)
             {
+                ScrollView usersContent = new ScrollView(this);
+                usersContent.setId(R.id.scrlVwUsersContent);
+                RelativeLayout.LayoutParams scrollView_params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                scrollView_params.addRule(RelativeLayout.ALIGN_PARENT_START);
+                scrollView_params.addRule(RelativeLayout.BELOW, R.id.seperator_top);
+                usersContent.setLayoutParams(scrollView_params);
+
                 RelativeLayout footerLayout = (RelativeLayout)findViewById(R.id.rl_footerLayout);
                 footerLayout.setVisibility(RelativeLayout.VISIBLE);
-
-                usersContent.removeAllViews();
 
                 TableLayout usersTableLayout = new TableLayout(context);
                 usersTableLayout.setId(R.id.tbly_users_content);
@@ -128,29 +134,29 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 params.addRule(RelativeLayout.ALIGN_PARENT_START);
                 usersTableLayout.setLayoutParams(params);
 
+                rl_main_view.addView(usersContent);
                 RefreshUserList();
             }
             else
             {
+                //If scroll view with user is visible hide it to prevent interfering with buttons
+                ScrollView usersContent = (ScrollView)findViewById(R.id.scrlVwUsersContent);
+                if (usersContent.getVisibility() == View.VISIBLE)
+                    usersContent.setVisibility(View.GONE);
+
                 //Since button to create new user is already added we can hide the one in footer.
                 RelativeLayout footerLayout = (RelativeLayout)findViewById(R.id.rl_footerLayout);
                 footerLayout.setVisibility(RelativeLayout.GONE);
 
                 RelativeLayout rl_buttonsContainer = new RelativeLayout(this);
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                params.addRule(RelativeLayout.BELOW, R.id.seperator_top);
-                params.addRule(RelativeLayout.ABOVE, R.id.rl_footerLayout);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+                params.addRule(RelativeLayout.CENTER_VERTICAL);
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
 
                 rl_buttonsContainer.setLayoutParams(params);
 
 
                 //Create New User Button
-                RelativeLayout rl_createNewUser = new RelativeLayout(this);
-
-                //converting int into pixels
-                //http://stackoverflow.com/questions/6798867/android-how-to-programmatically-set-the-size-of-a-layout
-                rl_createNewUser.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics())));
-
                 Button btn_createNewUser = new Button(this);
                 btn_createNewUser.setId(R.id.btnCreateNewUser);
                 btn_createNewUser.setText(R.string.title_activity_create_new_user);
@@ -158,10 +164,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 btn_createNewUser.setTextColor(Color.BLACK);
 
                 RelativeLayout.LayoutParams params_create_user = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                params_create_user.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                params_create_user.addRule(RelativeLayout.BELOW, R.id.seperator_top);
+                params_create_user.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                 params_create_user.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                params_create_user.addRule(RelativeLayout.CENTER_VERTICAL);
 
-                params_create_user.setMargins(0, 0, 0, 70);
+
+                params_create_user.setMargins(0, 600, 0, 0);
 
                 btn_createNewUser.setLayoutParams(params_create_user);
 
@@ -170,17 +179,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                 btn_createNewUser.setOnClickListener(this);
 
-                rl_createNewUser.addView(btn_createNewUser);
-                rl_buttonsContainer.addView(rl_createNewUser);
+                rl_buttonsContainer.addView(btn_createNewUser);
 
 
                 //Create Sign In Button
-                RelativeLayout rl_signIn = new RelativeLayout(this);
-
-                //converting int into pixels
-                //http://stackoverflow.com/questions/6798867/android-how-to-programmatically-set-the-size-of-a-layout
-                rl_signIn.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics())));
-
                 Button btn_signIn = new Button(this);
                 btn_signIn.setId(R.id.btnSignIn);
                 btn_signIn.setText(R.string.btnSignIn);
@@ -188,12 +190,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 btn_signIn.setTextColor(Color.BLACK);
 
                 RelativeLayout.LayoutParams params_signIn = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                params_signIn.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                params_signIn.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                params_create_user.addRule(RelativeLayout.BELOW, R.id.btnCreateNewUser);
+                params_signIn.addRule(RelativeLayout.ALIGN_START, R.id.btnCreateNewUser);
 
-                params_signIn.setMargins(0, 70, 0, 0);
+                params_signIn.setMargins(0, 800, 0, 0);
 
-                btn_createNewUser.setLayoutParams(params);
+                btn_signIn.setLayoutParams(params);
 
                 btn_signIn.setLayoutParams(params_signIn);
 
@@ -202,10 +204,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                 btn_signIn.setOnClickListener(this);
 
-                rl_signIn.addView(btn_signIn);
-                rl_buttonsContainer.addView(rl_signIn);
+                rl_buttonsContainer.addView(btn_signIn);
 
-                usersContent.addView(rl_buttonsContainer);
+                rl_main_view.addView(rl_buttonsContainer);
             }
         }
         catch (Exception e)
