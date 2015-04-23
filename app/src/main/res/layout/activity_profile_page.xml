@@ -8,55 +8,147 @@
     android:id="@+id/lnrlyt_profilePageLayout"
     tools:context="com.weighttr.sicha.weighttr.ProfilePageActivity">
 
-    <TableRow
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="80dp">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/tblRow_header"
-            android:orientation="horizontal"
+        <TableRow
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="80dp"
+            android:id="@+id/tr_profilePageHeader">
 
-            <ImageView
-                android:layout_width="150px"
-                android:layout_height="150px"
-                android:id="@+id/imgLogoWT"
-                android:src="@drawable/weight_tr_logo"
-                android:layout_column="0" />
+            <LinearLayout
+                android:id="@+id/tblRow_header"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <ImageView
+                    android:layout_width="150px"
+                    android:layout_height="150px"
+                    android:id="@+id/imgLogoWT"
+                    android:src="@drawable/weight_tr_logo"
+                    android:layout_column="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Weight Tracker"
+                    android:id="@+id/textView"
+                    android:layout_column="3"
+                    android:textAlignment="center"
+                    android:textColor="#ffffffff"
+                    android:textSize="13pt"
+                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_toRightOf="@+id/imgLogoWT"
+                    android:phoneNumber="false" />
+
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/tr_profilePageHeader"
+            android:layout_alignParentStart="true"
+            android:id="@+id/seperator_top">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#c0c0c0"
+                android:layout_column="0"
+                android:layout_below="@+id/tr_profilePageHeader"
+                android:layout_alignParentStart="true" />
+        </TableRow>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_profilePageUserData"
+            android:layout_alignParentStart="false"
+            android:layout_below="@+id/seperator_top">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Weight Tracker"
-                android:id="@+id/textView"
-                android:layout_column="3"
-                android:textAlignment="center"
+                android:text="Large Text"
+                android:id="@+id/lblProfilePageName"
+                android:textColor="#ffffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/lblProfilePageAge"
+                android:layout_below="@+id/lblProfilePageName"
+                android:layout_alignParentStart="true"
                 android:textColor="#ffffffff"
-                android:textSize="13pt"
-                android:layout_gravity="center"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="false"
-                android:layout_alignParentStart="false"
-                android:layout_alignParentRight="false"
-                android:layout_toRightOf="@+id/imgLogoWT"
-                android:phoneNumber="false" />
+                android:layout_marginTop="5dp" />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/lblProfilePageHeight"
+                android:layout_below="@+id/lblProfilePageAge"
+                android:layout_alignParentStart="true"
+                android:textColor="#ffffffff"
+                android:layout_marginBottom="5dp" />
+        </RelativeLayout>
 
-    </TableRow>
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="2dp">
-
-        <View
+        <TableRow
             android:layout_width="fill_parent"
             android:layout_height="2dp"
-            android:background="#c0c0c0"
-            android:layout_column="0" />
+            android:layout_below="@+id/rl_profilePageUserData"
+            android:layout_alignParentStart="true"
+            android:id="@+id/seperator_generic">
 
-    </TableRow>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#c0c0c0"
+                android:layout_column="0"
+                android:layout_below="@+id/tr_profilePageHeader"
+                android:layout_alignParentStart="true" />
+        </TableRow>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/sv_profilePageContent"
+            android:layout_above="@+id/rl_profilePageFooter"
+            android:layout_below="@+id/seperator_generic" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/rl_profilePageFooter">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Measure"
+                android:id="@+id/btnAddMeasure"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/my_button"
+                android:layout_marginBottom="5dp"
+                android:onClick="onAddMeasureButtonClicked" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 
 </LinearLayout>

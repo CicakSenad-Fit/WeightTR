@@ -45,6 +45,10 @@
             android:name=".SignIn"
             android:label="@string/title_activity_sign_in" >
         </activity>
+        <activity
+            android:name=".AddMeasureActivity"
+            android:label="@string/title_activity_add_measure" >
+        </activity>
     </application>
 
 </manifest>

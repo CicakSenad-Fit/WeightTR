@@ -129,7 +129,7 @@
                 android:layout_height="40dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Select your age:"
-                android:id="@+id/lblAge"
+                android:id="@+id/lblProfilePageAge"
                 android:textColor="#FFFFFF"
                 android:layout_alignParentStart="false" />
 

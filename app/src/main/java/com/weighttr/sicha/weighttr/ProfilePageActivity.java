@@ -5,15 +5,22 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import model.MeasureRecord;
 import model.User;
 
 
@@ -32,81 +39,19 @@ public class ProfilePageActivity extends ActionBarActivity {
         if (_selectedUser.getId() > 0)
         {
             try {
-                LinearLayout mainLayout = (LinearLayout)findViewById(R.id.lnrlyt_profilePageLayout);
+                TextView _lblUserName = (TextView)findViewById(R.id.lblProfilePageName);
+                _lblUserName.setText("Name: " + _selectedUser.getUsername());
 
-                LinearLayout _ll_username = new LinearLayout(this);
-                TableRow _tr_username = new TableRow(this);
-                TextView _tv_username_label = new TextView(this);
-                TextView _tv_username = new TextView(this);
-
-                _ll_username.setOrientation(LinearLayout.HORIZONTAL);
-
-                _tr_username.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
-
-                _tv_username_label.setTextAppearance(this, R.style.Base_TextAppearance_AppCompat_Large);
-                _tv_username_label.setTextColor(Color.WHITE);
-                _tv_username_label.setText("User name: ");
-
-                _tv_username.setTextAppearance(this, R.style.Base_TextAppearance_AppCompat_Large);
-                _tv_username.setTextColor(Color.WHITE);
-                _tv_username.setText(_selectedUser.getUsername());
-
-                _ll_username.addView(_tv_username_label);
-                _ll_username.addView(_tv_username);
-
-                _tr_username.addView(_ll_username);
-                //-------------------------------------------------
-                mainLayout.addView(_tr_username);
                 //-------------------------------------------------
 
-                LinearLayout _ll_age = new LinearLayout(this);
-                TableRow _tr_age = new TableRow(this);
-                TextView _tv_age_label = new TextView(this);
-                TextView _tv_age = new TextView(this);
+                TextView _lblAge = (TextView)findViewById(R.id.lblProfilePageAge);
+                _lblAge.setText("Age: " + String.valueOf(_selectedUser.getAge()));
 
-                _ll_age.setOrientation(LinearLayout.HORIZONTAL);
-
-                _tr_age.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
-
-                _tv_age_label.setTextAppearance(this, R.style.Base_TextAppearance_AppCompat_Large);
-                _tv_age_label.setTextColor(Color.WHITE);
-                _tv_age_label.setText("Age: ");
-
-                _tv_age.setTextAppearance(this, R.style.Base_TextAppearance_AppCompat_Large);
-                _tv_age.setTextColor(Color.WHITE);
-                _tv_age.setText(String.valueOf(_selectedUser.getAge()));
-
-                _ll_age.addView(_tv_age_label);
-                _ll_age.addView(_tv_age);
-
-                _tr_age.addView(_ll_age);
-                //-------------------------------------------------
-                mainLayout.addView(_tr_age);
                 //-------------------------------------------------
 
-                LinearLayout _ll_height = new LinearLayout(this);
-                TableRow _tr_height = new TableRow(this);
-                TextView _tv_height_label = new TextView(this);
-                TextView _tv_height = new TextView(this);
+                TextView _lblHeight = (TextView)findViewById(R.id.lblProfilePageHeight);
+                _lblHeight.setText("Height: " + String.valueOf(_selectedUser.getHeight()));
 
-                _ll_height.setOrientation(LinearLayout.HORIZONTAL);
-
-                _tr_height.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
-
-                _tv_height_label.setTextAppearance(this, R.style.Base_TextAppearance_AppCompat_Large);
-                _tv_height_label.setTextColor(Color.WHITE);
-                _tv_height_label.setText("Height: ");
-
-                _tv_height.setTextAppearance(this, R.style.Base_TextAppearance_AppCompat_Large);
-                _tv_height.setTextColor(Color.WHITE);
-                _tv_height.setText(String.valueOf(_selectedUser.getHeight()));
-
-                _ll_height.addView(_tv_height_label);
-                _ll_height.addView(_tv_height);
-
-                _tr_height.addView(_ll_height);
-                //-------------------------------------------------
-                mainLayout.addView(_tr_height);
                 //-------------------------------------------------
             }
             catch (Exception e)
@@ -114,6 +59,61 @@ public class ProfilePageActivity extends ActionBarActivity {
                 Log.e("Error accessing user data! Error message: ", e.getMessage());
             }
         }
+
+        if (_selectedUser.getMeasuresLenght() > 0)
+        {
+            ArrayList<MeasureRecord> userMeasures = _selectedUser.getMeasures();
+
+            ScrollView measuresContent = (ScrollView)findViewById(R.id.sv_profilePageContent);
+
+            TableLayout measuresTableLayout = new TableLayout(this);
+            measuresTableLayout.setId(R.id.tbly_measures_content);
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_START);
+            measuresTableLayout.setLayoutParams(params);
+
+            measuresContent.addView(measuresTableLayout);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyy.");
+
+            for (int i=0; i < userMeasures.size(); i++)
+            {
+                LinearLayout tmpLinearLayout = new LinearLayout(this);
+                tmpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+                TableRow tmpTableRow = new TableRow(this);
+                TextView txtMeasureDate = new TextView(this);
+                TextView txtValue = new TextView(this);
+
+                tmpTableRow.setId(i + 1);
+                tmpTableRow.setPadding(0, 30, 0, 30);
+
+                txtMeasureDate.setTextAppearance(this, android.R.style.TextAppearance_Large);
+                txtMeasureDate.setText(sdf.format(userMeasures.get(i).getDate()) + ": ");
+                txtMeasureDate.setTextColor(Color.WHITE);
+                txtMeasureDate.setGravity(Gravity.CENTER_VERTICAL);
+                txtMeasureDate.setPadding(25, 5, 0, 0);
+                tmpLinearLayout.addView(txtMeasureDate);
+
+                txtValue.setTextAppearance(this, android.R.style.TextAppearance_Large);
+                txtValue.setText(String.valueOf(userMeasures.get(i).getValue()));
+                txtValue.setTextColor(Color.WHITE);
+                txtValue.setGravity(Gravity.CENTER_VERTICAL);
+                txtValue.setPadding(25, 5, 0, 0);
+                tmpLinearLayout.addView(txtValue);
+
+                tmpTableRow.addView(tmpLinearLayout);
+                measuresTableLayout.addView(tmpTableRow);
+            }
+        }
+    }
+
+    public void onAddMeasureButtonClicked(View view)
+    {
+        Intent intent = new Intent(getApplicationContext(), AddMeasureActivity.class);
+        intent.putExtra("user", _selectedUser);
+        startActivity(intent);
     }
 
 

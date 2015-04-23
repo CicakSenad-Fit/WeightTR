@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Sicha on 4/5/2015.
@@ -9,9 +10,10 @@ public class User implements Serializable {
     private int id;
     private String username;
     private String pass;
-    private int Age;
-    private boolean Sex;
-    private int Height;
+    private int age;
+    private boolean sex;
+    private int height;
+    private ArrayList<MeasureRecord> measures;
 
     public int getId() {
         return id;
@@ -26,7 +28,7 @@ public class User implements Serializable {
     }
 
     public int getAge() {
-        return Age;
+        return age;
     }
 
     public void setId(int id) {
@@ -34,11 +36,11 @@ public class User implements Serializable {
     }
 
     public boolean getSex() {
-        return Sex;
+        return sex;
     }
 
     public int getHeight() {
-        return Height;
+        return height;
     }
 
     public void setUsername(String username) {
@@ -50,14 +52,43 @@ public class User implements Serializable {
     }
 
     public void setAge(int age) {
-        Age = age;
+        this.age = age;
     }
 
     public void setSex(boolean sex) {
-        Sex = sex;
+        this.sex = sex;
     }
 
     public void setHeight(int height) {
-        Height = height;
+        this.height = height;
     }
+
+    public ArrayList<MeasureRecord> getMeasures() {
+        return measures;
+    }
+
+    public void setMeasures(ArrayList<MeasureRecord> measures) {
+        this.measures = measures;
+    }
+
+
+    public int getMeasuresLenght()
+    {
+        if (measures != null)
+            return measures.size();
+        else
+            return 0;
+    }
+
+    public void addNewMeasure(MeasureRecord newMeasure)
+    {
+        if (measures != null)
+            measures.add(newMeasure);
+        else
+        {
+            measures = new ArrayList<MeasureRecord>();
+            measures.add(newMeasure);
+        }
+    }
+
 }

@@ -1,0 +1,107 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/gradient_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center_vertical"
+    android:id="@+id/lnrlyt_addMeasureLayout"
+    tools:context="com.weighttr.sicha.weighttr.AddMeasureActivity">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:id="@+id/tr_profilePageHeader">
+
+            <LinearLayout
+                android:id="@+id/tblRow_header"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <ImageView
+                    android:layout_width="150px"
+                    android:layout_height="150px"
+                    android:id="@+id/imgLogoWT"
+                    android:src="@drawable/weight_tr_logo"
+                    android:layout_column="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Weight Tracker"
+                    android:id="@+id/textView"
+                    android:layout_column="3"
+                    android:textAlignment="center"
+                    android:textColor="#ffffffff"
+                    android:textSize="13pt"
+                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_toRightOf="@+id/imgLogoWT"
+                    android:phoneNumber="false" />
+
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/tr_profilePageHeader"
+            android:layout_alignParentStart="true"
+            android:id="@+id/seperator_top">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#c0c0c0"
+                android:layout_column="0"
+                android:layout_below="@+id/tr_profilePageHeader"
+                android:layout_alignParentStart="true" />
+        </TableRow>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/npAddMeasureWeight"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Weight:"
+            android:id="@+id/lblAddMeasureWeight"
+            android:layout_above="@+id/npAddMeasureWeight"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:id="@+id/btnAddMeasureConfirm"
+            android:layout_below="@+id/npAddMeasureWeight"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/my_button"
+            android:layout_marginTop="10dp"
+            android:onClick="onClickAddMeasureConfirm" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -11,8 +11,9 @@
     <string name="btnSignIn">Sign In</string>
     <string name="title_activity_create_new_user">Create New User</string>
     <string name="title_activity_sign_in">Sign In</string>
-
     <string name="menu_context_add">Add new user</string>
     <string name="menu_context_edit">Edit</string>
     <string name="menu_context_remove">Remove</string>
+    <string name="title_activity_add_measure">AddMeasureActivity</string>
+
 </resources>
